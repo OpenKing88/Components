@@ -1,0 +1,44 @@
+ext {
+    //定义一个项目全局遍历isRelease，用于动态切换：组件化模式/集成模式
+    //false:组件化模式（子模块可以独立运行） true:集成化模式（打包整个项目，子模块不可独立运行）
+    isRelease = false
+
+    //建立Map存储，对象名，key可自定义
+    androidId = [
+            compileSdkVersion: 30,
+            buildToolsVersion: "30.0.3",
+            minSdkVersion    : 21,
+            targetSdkVersion : 30,
+            versionCode      : 1,
+            versionName      : "1.0",
+    ]
+
+    appId = [
+            "app"     : "com.openking.components",
+            "home"    : "com.openking.home",
+            "order"   : "com.openking.order",
+            "personal": "com.openking.personal"
+    ]
+
+    url = [
+            "debug"  : "https:11.22.33.44/debug",
+            "release": "https:55.66.77.88/release"
+    ]
+
+    testImpl = [
+            "junit": 'junit:junit:4.13.2'
+    ]
+
+    androidTestImpl = [
+            "junit-ext"    : 'androidx.test.ext:junit:1.1.2',
+            "espresso-core": 'androidx.test.espresso:espresso-core:3.3.0'
+    ]
+
+    dependencies = [
+            "kotlin"          : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            "core-ktx"        : 'androidx.core:core-ktx:1.3.2',
+            "appcompat"       : 'androidx.appcompat:appcompat:1.2.0',
+            "material"        : 'com.google.android.material:material:1.2.1',
+            "constraintlayout": 'androidx.constraintlayout:constraintlayout:2.0.4',
+    ]
+}

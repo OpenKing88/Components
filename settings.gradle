@@ -1,0 +1,6 @@
+rootProject.name = "Components"
+include ':app'
+include ':home'
+include ':order'
+include ':personal'
+include ':common'

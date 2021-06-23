@@ -1,0 +1,67 @@
+if (isRelease) apply plugin: 'com.android.library'
+else apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+def androidId = rootProject.ext.androidId
+def support = rootProject.ext.dependencies
+def test = rootProject.ext.testImpl
+def appId = rootProject.ext.appId
+def androidTest = rootProject.ext.androidTestImpl
+
+android {
+    compileSdkVersion androidId.compileSdkVersion
+    buildToolsVersion androidId.buildToolsVersion
+
+    defaultConfig {
+        if (!isRelease)
+            applicationId appId.home
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    //配置资源路径
+    sourceSets {
+        main {
+            if (isRelease) {
+                //集成化环境，组件作为lib打包
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java {
+                    /**
+                     * 该指令可让在集成情况下debug包中的代码不会打包到apk中去
+                     * 可保证分模块开发互不影响
+                     */
+                    exclude '**/debug/**'
+                }
+            } else {
+                //组件化环境，单独开发
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    support.each { k, v -> implementation v }
+    androidTest.each { k, v -> androidTestImplementation v }
+    test.each { k, v -> testImplementation v }
+    implementation project(':common')
+}
