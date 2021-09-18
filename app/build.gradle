@@ -22,7 +22,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
-        buildConfigField("boolean", "isRelease", String.valueOf(isRelease))
+        buildConfigField("boolean", "isApp", String.valueOf(isApp))
     }
 
     buildTypes {
@@ -42,8 +42,20 @@ android {
 
 dependencies {
     support.each { k, v -> implementation v }
+    if (project.hasProperty("isRelease") && project.property("isRelease") == "true") {
+        COMMON_VERSION = COMMON_VERSION.replace("-SNAPSHOT", "")
+        HOME_VERSION = HOME_VERSION.replace("-SNAPSHOT", "")
+        ORDER_VERSION = ORDER_VERSION.replace("-SNAPSHOT", "")
+        PERSONAL_VERSION = PERSONAL_VERSION.replace("-SNAPSHOT", "")
+    }
+    // 如需依赖maven的aar包，放开该注释依赖
+//    implementation "com.openking.components:common:$BASE_VERSION"
     implementation project(':common')
-    if (isRelease){
+    if (isApp){
+        // 如需依赖maven的aar包，放开该注释依赖
+//    implementation "com.openking.components:home:HOME_VERSION"
+//    implementation "com.openking.components:order:ORDER_VERSION"
+//    implementation "com.openking.components:personal:PERSONAL_VERSION"
         implementation project(':home')
         implementation project(':order')
         implementation project(':personal')

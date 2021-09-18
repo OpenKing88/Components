@@ -42,3 +42,5 @@ dependencies {
     androidTest.each { k, v -> androidTestImplementation v }
     test.each { k, v -> testImplementation v }
 }
+
+apply from: "upload.gradle"
